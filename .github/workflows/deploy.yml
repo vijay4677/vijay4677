@@ -22,7 +22,8 @@ jobs:
 
     - name: Build Docker image
       run: docker build -t ${{ secrets.DOCKER_USERNAME }}/fastapi-cicd .
-
+    - name: Test
+      run: echo "CI/CD pipeline is working 🚀-${{ secrets.DOCKER_USERNAME }}"
     - name: Push image
       run: docker push ${{ secrets.DOCKER_USERNAME }}/fastapi-cicd
 
