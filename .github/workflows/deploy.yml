@@ -24,11 +24,12 @@ jobs:
       run: |
         docker build -t ${{ secrets.DOCKER_USERNAME }}/fastapi-cicd .
         docker build -t ${{ secrets.DOCKER_USERNAME }}/fastapi-cicd:${{ github.sha }} .
-
+    - name: Test
+      run: echo "CI/CD pipeline is working 🚀-${{ secrets.DOCKER_USERNAME }}"
     - name: Push image
       run: | 
           docker push ${{ secrets.DOCKER_USERNAME }}/fastapi-cicd
-          docker push ${{ secrets.DOCKER_USERNAME }}/fastapi-cicd:${{ github.sha }} .
+          docker push ${{ secrets.DOCKER_USERNAME }}/fastapi-cicd:${{ github.sha }}
 
     - name: Deploy to EC2
       uses: appleboy/ssh-action@master
