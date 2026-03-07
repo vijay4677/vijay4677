@@ -21,11 +21,14 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
 
     - name: Build Docker image
-      run: docker build -t ${{ secrets.DOCKER_USERNAME }}/fastapi-cicd .
-    - name: Test
-      run: echo "CI/CD pipeline is working 🚀-${{ secrets.DOCKER_USERNAME }}"
+      run: |
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/fastapi-cicd .
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/fastapi-cicd:${{ github.sha }} .
+
     - name: Push image
-      run: docker push ${{ secrets.DOCKER_USERNAME }}/fastapi-cicd
+      run: | 
+          docker push ${{ secrets.DOCKER_USERNAME }}/fastapi-cicd
+          docker push ${{ secrets.DOCKER_USERNAME }}/fastapi-cicd:${{ github.sha }} .
 
     - name: Deploy to EC2
       uses: appleboy/ssh-action@master
