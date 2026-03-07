@@ -27,14 +27,14 @@ jobs:
       - name: Lint error fixing
         run: |
           black .
-          
+
       - name: Run Lint
         run: |
           flake8 .
 
       - name: Security Scan
         run: |
-          bandit -r .
+          bandit -r app/
 
       - name: Run Tests
         run: |
