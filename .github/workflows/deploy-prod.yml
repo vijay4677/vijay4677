@@ -30,9 +30,9 @@ jobs:
       - name: Deploy to production EC2
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.PROD_HOST }}
+          host: ${{ secrets.EC2_HOST }}
           username: ec2-user
-          key: ${{ secrets.PROD_KEY }}
+          key: ${{ secrets.EC2_HOST }}
           script: |
             docker pull ${{ secrets.DOCKER_USERNAME }}/fastapi-prod
             docker stop fastapi || true
