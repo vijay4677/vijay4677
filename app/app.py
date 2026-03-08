@@ -10,3 +10,7 @@ def home():
 @app.get("/ping")
 def ping():
     return {"ping": "pong"}
+
+@app.get("/health")
+def health():
+    return {"status": "ok"}
