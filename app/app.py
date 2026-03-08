@@ -12,5 +12,5 @@ def ping():
     return {"ping": "pong"}
 
 @app.get("/health")
-def ping():
+def health():
     return {"status": "ok"}
