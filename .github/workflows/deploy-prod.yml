@@ -1,0 +1,40 @@
+name: Deploy Production
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    environment:
+      name: production
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Login DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build image
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/fastapi-prod .
+
+      - name: Push image
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/fastapi-prod
+
+      - name: Deploy to production EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.PROD_HOST }}
+          username: ec2-user
+          key: ${{ secrets.PROD_KEY }}
+          script: |
+            docker pull ${{ secrets.DOCKER_USERNAME }}/fastapi-prod
+            docker stop fastapi || true
+            docker rm fastapi || true
+            docker run -d -p 8000:8000 --name fastapi ${{ secrets.DOCKER_USERNAME }}/fastapi-prod
