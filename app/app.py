@@ -6,3 +6,7 @@ app = FastAPI()
 @app.get("/")
 def home():
     return {"message": "CI/CD deployment working1 🚀"}
+
+@app.get("/ping")
+def ping():
+    return {"ping": "pong"}
