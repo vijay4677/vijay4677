@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.12
+
+      - run: pip install -r requirements.txt
+      - run: pip install -r requirements-dev.txt
+
+      - name: Lint error fixing automatic
+        run: |
+          black .
+
+      - name: Lint
+        run: flake8 .
+
+      - name: Security scan
+        run: bandit -r app/
+
+      - name: Run tests
+        run: PYTHONPATH=. pytest
