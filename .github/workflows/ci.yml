@@ -20,7 +20,7 @@ jobs:
       - run: pip install -r requirements.txt
       - run: pip install -r requirements-dev.txt
 
-      - name: Lint error fixing
+      - name: Lint error fixing automatic
         run: |
           black .
 
